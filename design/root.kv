@@ -1,5 +1,14 @@
 <MyButton@Button>
 
+<FormTitle@Label>:
+    font_size: 32
+    padding_y: 20
+    size_hint: 1, None
+
+<FormInput@TextInput>:
+    size_hint: 1, None
+    size: 1, 40
+
 <RootWidget>:
     NotLoggedBoxLayout:
 
@@ -10,85 +19,66 @@
     BoxLayout:
         orientation: 'horizontal'
         size_hint: 1, 0.1
+
         MyButton:
             text: "Main page"
             on_press:
-                screen_manager.current = 'main_page'
+                root.screen_manager.current = 'main_page'
 
         MyButton:
             text: "Menu"
             on_press:
-                screen_manager.current = 'menu'
+                root.screen_manager.current = 'menu'
 
-    NotLoggedScreenManager
+
+    ScreenManager
         id: screen_manager
         size_hint: 1, 0.9
 
-<NotLoggedScreenManager>:
-    NotLoggedMenuScreen:
-        name: 'menu'
-        screen_manager: root
+        Screen:
+            name: 'menu'
+            BoxLayout:
+                orientation: 'vertical'
+                MyButton:
+                    text: "Login"
+                    on_press:
+                        root.screen_manager.current = 'login'
+                MyButton:
+                    text: "Create account"
+                    on_press:
+                        root.screen_manager.current = 'register'
+                MyButton:
+                    text: "About"
 
-    NotLoggedMainPageScreen:
-        name: 'main_page'
-    LoginForm:
-        name: 'login'
-    RegisterForm:
-        name: 'register'
+        Screen:
+            name: 'main_page'
 
+        Screen:
+            name: 'login'
+            StackLayout
+                orientation: 'lr-tb'
+                FormTitle:
+                    text: 'Login'
 
-<NotLoggedMenuScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-        MyButton:
-            text: "Login"
-            on_press:
-                root.screen_manager.current = 'login'
+                FormInput:
+                    hint_text: 'Username'
 
-        MyButton:
-            text: "Create account"
-            on_press:
-                root.screen_manager.current = 'register'
-        MyButton:
-            text: "About"
+                FormInput
+                    hint_text: 'Password'
+                    password: True
 
-<NotLoggedMainPageScreen>
+        Screen:
+            name: 'register'
+            StackLayout:
+                orientation: 'lr-tb'
 
-<FormTitle@Label>:
-    font_size: 32
-    padding_y: 20
-    size_hint: 1, None
+                FormTitle:
+                    text: 'Create account'
 
-<FormInput@TextInput>:
-    size_hint: 1, None
-    size: 1, 40
-
-
-<LoginForm>
-    StackLayout
-        orientation: 'lr-tb'
-        FormTitle:
-            text: 'Login'
-
-        FormInput:
-            hint_text: 'Username'
-
-        FormInput
-            hint_text: 'Password'
-            password: True
-
-
-<RegisterForm>
-    StackLayout:
-        orientation: 'lr-tb'
-
-        FormTitle:
-            text: 'Create account'
-
-        FormInput:
-            hint_text: 'Email'
-        FormInput:
-            hint_text: 'Username'
-        FormInput:
-            hint_text: 'Password'
-            password: True
+                FormInput:
+                    hint_text: 'Email'
+                FormInput:
+                    hint_text: 'Username'
+                FormInput:
+                    hint_text: 'Password'
+                    password: True
