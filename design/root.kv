@@ -1,0 +1,94 @@
+<MyButton@Button>
+
+<RootWidget>:
+    NotLoggedBoxLayout:
+
+<NotLoggedBoxLayout>
+    orientation: 'vertical'
+    screen_manager: screen_manager
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: 1, 0.1
+        MyButton:
+            text: "Main page"
+            on_press:
+                screen_manager.current = 'main_page'
+
+        MyButton:
+            text: "Menu"
+            on_press:
+                screen_manager.current = 'menu'
+
+    NotLoggedScreenManager
+        id: screen_manager
+        size_hint: 1, 0.9
+
+<NotLoggedScreenManager>:
+    NotLoggedMenuScreen:
+        name: 'menu'
+        screen_manager: root
+
+    NotLoggedMainPageScreen:
+        name: 'main_page'
+    LoginForm:
+        name: 'login'
+    RegisterForm:
+        name: 'register'
+
+
+<NotLoggedMenuScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        MyButton:
+            text: "Login"
+            on_press:
+                root.screen_manager.current = 'login'
+
+        MyButton:
+            text: "Create account"
+            on_press:
+                root.screen_manager.current = 'register'
+        MyButton:
+            text: "About"
+
+<NotLoggedMainPageScreen>
+
+<FormTitle@Label>:
+    font_size: 32
+    padding_y: 20
+    size_hint: 1, None
+
+<FormInput@TextInput>:
+    size_hint: 1, None
+    size: 1, 40
+
+
+<LoginForm>
+    StackLayout
+        orientation: 'lr-tb'
+        FormTitle:
+            text: 'Login'
+
+        FormInput:
+            hint_text: 'Username'
+
+        FormInput
+            hint_text: 'Password'
+            password: True
+
+
+<RegisterForm>
+    StackLayout:
+        orientation: 'lr-tb'
+
+        FormTitle:
+            text: 'Create account'
+
+        FormInput:
+            hint_text: 'Email'
+        FormInput:
+            hint_text: 'Username'
+        FormInput:
+            hint_text: 'Password'
+            password: True
