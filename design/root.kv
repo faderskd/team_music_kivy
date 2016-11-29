@@ -1,5 +1,13 @@
 <MyButton@Button>
 
+<SubmitButton@Button>:
+    size_hint: None, None
+    pos_hint: {'y':0.9}
+    size: 150, 40
+
+<FormLayout@StackLayout>:
+    padding: 10
+
 <FormTitle@Label>:
     font_size: 32
     padding_y: 20
@@ -9,12 +17,23 @@
     size_hint: 1, None
     size: 1, 40
 
+<ErrorLabel@Label>:
+    size_hint: 1, None
+    size: self.texture_size
+    text_size: self.size
+    padding_y: 10
+    halign: 'left'
+    valign: 'middle'
+    color: 1,0,0, 1
+
 <RootWidget>:
     NotLoggedBoxLayout:
 
 <NotLoggedBoxLayout>
     orientation: 'vertical'
     screen_manager: screen_manager
+    login_form: login_form
+
 
     BoxLayout:
         orientation: 'horizontal'
@@ -55,21 +74,40 @@
 
         Screen:
             name: 'login'
-            StackLayout
+            FormLayout:
                 orientation: 'lr-tb'
+                padding: 10
+                id: login_form
+                username: username
+                password: password
+                username_error: username_error
+                password_error: password_error
+
                 FormTitle:
                     text: 'Login'
 
                 FormInput:
+                    id: username
                     hint_text: 'Username'
+                ErrorLabel:
+                    id: username_error
 
                 FormInput
+                    id: password
                     hint_text: 'Password'
                     password: True
+                ErrorLabel:
+                    id: password_error
+
+                FloatLayout:
+                    SubmitButton:
+                        text: 'Login'
+                        center_x: root.center_x
+                        on_press: root.login()
 
         Screen:
             name: 'register'
-            StackLayout:
+            FormLayout:
                 orientation: 'lr-tb'
 
                 FormTitle:
@@ -82,3 +120,9 @@
                 FormInput:
                     hint_text: 'Password'
                     password: True
+
+                FloatLayout:
+                    SubmitButton:
+                        text: 'Submit'
+                        center_x: root.center_x
+
