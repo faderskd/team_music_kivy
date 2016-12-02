@@ -1,0 +1,44 @@
+<MyButton@Button>
+
+<SubmitButton@Button>:
+    size_hint: None, None
+    pos_hint: {'y':0.9}
+    size: 150, 40
+
+<FormLayout@StackLayout>:
+    padding: 10
+    orientation: 'lr-tb'
+    non_field_errors: non_field_errors
+    title: 'default'
+
+    FormTitle:
+        text: root.title
+
+    ErrorLabel:
+        id: non_field_errors
+        halign: 'center'
+
+    SuccessLabel:
+        id: success_label
+
+<FormTitle@Label>:
+    font_size: 32
+    padding_y: 20
+    size_hint: 1, None
+
+<FormInput@TextInput>:
+    size_hint: 1, None
+    size: 1, 40
+
+<ErrorLabel@Label>:
+    size_hint: 1, None
+    size: self.texture_size
+    text_size: self.size
+    padding_y: 10
+    halign: 'left'
+    valign: 'middle'
+    color: 1,0,0,1
+
+<SuccessLabel@ErrorLabel>:
+    halign: 'center'
+    color: 0,1,0,1

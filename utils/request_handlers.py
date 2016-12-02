@@ -6,11 +6,11 @@ from .form_validators import set_errors_to_form
 
 
 class BaseRequestHandler(object):
-    def __init__(self, url, form, method, async=False):
+    def __init__(self, url, form, method, async_req=False):
         self._url = url
         self._form = form
         self._method = method
-        self._async = async
+        self._async = async_req
         self._success = False
 
     def _on_success_helper(self, req, result):
@@ -19,9 +19,6 @@ class BaseRequestHandler(object):
 
     def on_success(self, req, result):
         pass
-
-    def _on_failure_helper(self, req, errors):
-        self.on_failure(req, errors)
 
     def on_failure(self, req, errors):
         set_errors_to_form(self._form, errors)
@@ -34,7 +31,7 @@ class BaseRequestHandler(object):
             'req_body': json_data,
             'req_headers': {'Content-Type': 'application/json'},
             'on_success': self._on_success_helper,
-            'on_failure': self._on_failure_helper,
+            'on_failure': self.on_failure,
             'method': self._method
         }
         if self._async:

@@ -47,6 +47,8 @@ class ErrorLabel(Label):
 
 
 Builder.load_file('design/root.kv')
+Builder.load_file('design/common.kv')
+Builder.load_file('design/not_logged.kv')
 
 Factory.register('ErrorLabel', cls=ErrorLabel)
 

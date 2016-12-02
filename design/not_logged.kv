@@ -1,0 +1,63 @@
+<LoginForm@FormLayout>:
+    title: 'Login'
+    username: username
+    password: password
+    username_error: username_error
+    password_error: password_error
+
+    FormInput:
+        id: username
+        hint_text: 'Username'
+    ErrorLabel:
+        id: username_error
+
+    FormInput:
+        id: password
+        hint_text: 'Password'
+        password: True
+    ErrorLabel:
+        id: password_error
+
+    FloatLayout:
+        SubmitButton:
+            text: 'Login'
+            center_x: root.center_x
+            on_press: root.login()
+
+
+
+<RegisterForm@FormLayout>:
+    title: 'Create account'
+
+    username: username
+    email: email
+    password: password
+
+    username_error: username_error
+    email_error: email_error
+    password_error: password_error
+
+    FormInput:
+        hint_text: 'Email'
+        id: email
+    ErrorLabel:
+        id: email_error
+
+    FormInput:
+        hint_text: 'Username'
+        id: username
+    ErrorLabel:
+        id: username_error
+
+    FormInput:
+        hint_text: 'Password'
+        password: True
+        id: password
+    ErrorLabel:
+        id: password_error
+
+    FloatLayout:
+        SubmitButton:
+            text: 'Submit'
+            center_x: root.center_x
+            on_press: root.register()
