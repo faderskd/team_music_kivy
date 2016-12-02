@@ -3,10 +3,39 @@ from kivy.lang import Builder
 from kivy.factory import Factory
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.stacklayout import StackLayout
 
-from utils import form_handlers
+import settings
+import validators
+import handlers
 
-Builder.load_file('design/root.kv')
+
+class FormLayout(StackLayout):
+    pass
+
+
+class RegisterForm(FormLayout):
+    def register(self):
+        form_validator = validators.RegisterFormValidator(self)
+        form_handler = handlers.RegisterFormHandler(
+            url=settings.API_URLS['register'],
+            form=self,
+            method='POST'
+        )
+        if form_validator.form_is_valid():
+            form_handler.send_request()
+
+
+class LoginForm(FormLayout):
+    def login(self):
+        form_validator = validators.LoginFormValidator(self)
+        form_handler = handlers.LoginFormHandler(
+            url=settings.API_URLS['login'],
+            form=self,
+            method='POST'
+        )
+        if form_validator.form_is_valid():
+            form_handler.send_request()
 
 
 class RootWidget(BoxLayout):
@@ -16,13 +45,10 @@ class RootWidget(BoxLayout):
 class ErrorLabel(Label):
     pass
 
+
+Builder.load_file('design/root.kv')
+
 Factory.register('ErrorLabel', cls=ErrorLabel)
-
-
-class NotLoggedBoxLayout(BoxLayout):
-    def login(self):
-        form = self.login_form
-        form_handlers.login_form_handler(form)
 
 
 class TeamMusicApp(App):

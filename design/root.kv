@@ -7,6 +7,19 @@
 
 <FormLayout@StackLayout>:
     padding: 10
+    orientation: 'lr-tb'
+    non_field_errors: non_field_errors
+    title: 'default'
+
+    FormTitle:
+        text: root.title
+
+    ErrorLabel:
+        id: non_field_errors
+        halign: 'center'
+
+    SuccessLabel:
+        id: success_label
 
 <FormTitle@Label>:
     font_size: 32
@@ -24,105 +37,135 @@
     padding_y: 10
     halign: 'left'
     valign: 'middle'
-    color: 1,0,0, 1
+    color: 1,0,0,1
 
-<RootWidget>:
-    NotLoggedBoxLayout:
+<SuccessLabel@ErrorLabel>:
+    halign: 'center'
+    color: 0,1,0,1
 
-<NotLoggedBoxLayout>
+
+<RootWidget@BoxLayout>:
     orientation: 'vertical'
     screen_manager: screen_manager
-    login_form: login_form
 
+    NotLoggedMenu:
+        screen_manager: screen_manager
 
-    BoxLayout:
-        orientation: 'horizontal'
-        size_hint: 1, 0.1
-
-        MyButton:
-            text: "Main page"
-            on_press:
-                root.screen_manager.current = 'main_page'
-
-        MyButton:
-            text: "Menu"
-            on_press:
-                root.screen_manager.current = 'menu'
-
-
-    ScreenManager
+    NotLoggedNavigator:
         id: screen_manager
-        size_hint: 1, 0.9
 
-        Screen:
-            name: 'menu'
-            BoxLayout:
-                orientation: 'vertical'
-                MyButton:
-                    text: "Login"
-                    on_press:
-                        root.screen_manager.current = 'login'
-                MyButton:
-                    text: "Create account"
-                    on_press:
-                        root.screen_manager.current = 'register'
-                MyButton:
-                    text: "About"
 
-        Screen:
-            name: 'main_page'
+<NotLoggedMenu@BoxLayout>:
+    orientation: 'horizontal'
+    size_hint: 1, 0.1
+    screen_manager: None
 
-        Screen:
-            name: 'login'
-            FormLayout:
-                orientation: 'lr-tb'
-                padding: 10
-                id: login_form
-                username: username
-                password: password
-                username_error: username_error
-                password_error: password_error
+    MyButton:
+        text: "Main page"
+        on_press:
+            root.screen_manager.current = 'main_page'
 
-                FormTitle:
-                    text: 'Login'
+    MyButton:
+        text: "Menu"
+        on_press:
+            root.screen_manager.current = 'menu'
 
-                FormInput:
-                    id: username
-                    hint_text: 'Username'
-                ErrorLabel:
-                    id: username_error
 
-                FormInput
-                    id: password
-                    hint_text: 'Password'
-                    password: True
-                ErrorLabel:
-                    id: password_error
+<NotLoggedNavigator@ScreenManager>:
+    size_hint: 1, 0.9
 
-                FloatLayout:
-                    SubmitButton:
-                        text: 'Login'
-                        center_x: root.center_x
-                        on_press: root.login()
+    Screen:
+        name: 'menu'
+        BoxLayout:
+            orientation: 'vertical'
+            MyButton:
+                text: "Login"
+                on_press:
+                    root.current = 'login'
+            MyButton:
+                text: "Create account"
+                on_press:
+                    root.current = 'register'
+            MyButton:
+                text: "About"
 
-        Screen:
-            name: 'register'
-            FormLayout:
-                orientation: 'lr-tb'
+    Screen:
+        name: 'main_page'
 
-                FormTitle:
-                    text: 'Create account'
+    Screen:
+        name: 'login'
+        LoginForm:
+            id: login_form
 
-                FormInput:
-                    hint_text: 'Email'
-                FormInput:
-                    hint_text: 'Username'
-                FormInput:
-                    hint_text: 'Password'
-                    password: True
+    Screen:
+        name: 'register'
+        RegisterForm:
+            id: register_form
 
-                FloatLayout:
-                    SubmitButton:
-                        text: 'Submit'
-                        center_x: root.center_x
+
+<LoginForm@FormLayout>:
+    title: 'Login'
+    screen_manager: None
+    username: username
+    password: password
+    username_error: username_error
+    password_error: password_error
+
+    FormInput:
+        id: username
+        hint_text: 'Username'
+    ErrorLabel:
+        id: username_error
+
+    FormInput:
+        id: password
+        hint_text: 'Password'
+        password: True
+    ErrorLabel:
+        id: password_error
+
+    FloatLayout:
+        SubmitButton:
+            text: 'Login'
+            center_x: root.center_x
+            on_press: root.login()
+
+
+
+<RegisterForm@FormLayout>:
+    title: 'Create account'
+
+    username: username
+    email: email
+    password: password
+
+    username_error: username_error
+    email_error: email_error
+    password_error: password_error
+
+    FormInput:
+        hint_text: 'Email'
+        id: email
+    ErrorLabel:
+        id: email_error
+
+    FormInput:
+        hint_text: 'Username'
+        id: username
+    ErrorLabel:
+        id: username_error
+
+    FormInput:
+        hint_text: 'Password'
+        password: True
+        id: password
+    ErrorLabel:
+        id: password_error
+
+    FloatLayout:
+        SubmitButton:
+            text: 'Submit'
+            center_x: root.center_x
+            on_press: root.register()
+
 
