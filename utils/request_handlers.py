@@ -15,13 +15,16 @@ class BaseRequestHandler(object):
 
     def _on_success_helper(self, req, result):
         self._success = True
-        self.on_success(req, result)
+        self.on_success(req, result, self._form)
 
-    def on_success(self, req, result):
+    def on_success(self, req, result, form):
         pass
 
-    def on_failure(self, req, errors):
-        set_errors_to_form(self._form, errors)
+    def _on_failure_helper(self, req, error):
+        self.on_failure(req, error, self._form)
+
+    def on_failure(self, req, errors, form):
+        set_errors_to_form(form, errors)
 
     def send_request(self):
         data = self.get_request_data(self._form)
@@ -31,7 +34,7 @@ class BaseRequestHandler(object):
             'req_body': json_data,
             'req_headers': {'Content-Type': 'application/json'},
             'on_success': self._on_success_helper,
-            'on_failure': self.on_failure,
+            'on_failure': self._on_failure_helper,
             'method': self._method
         }
         if self._async:

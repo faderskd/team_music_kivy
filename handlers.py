@@ -8,6 +8,10 @@ class LoginFormHandler(request_handlers.BaseRequestHandler):
             'password': form.password.text
         }
 
+    def on_success(self, req, result, form):
+        root_widget = form.root_widget
+        root_widget.set_logged_layout()
+
 
 class RegisterFormHandler(request_handlers.BaseRequestHandler):
     def get_request_data(self, form):

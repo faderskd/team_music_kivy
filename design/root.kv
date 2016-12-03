@@ -1,12 +1,15 @@
 <RootWidget@BoxLayout>:
     orientation: 'vertical'
-    screen_manager: screen_manager
+    menu: not_logged_menu
+    screen_manager: not_logged_screen_manager
 
     NotLoggedMenu:
-        screen_manager: screen_manager
+        screen_manager: not_logged_screen_manager
+        id: not_logged_menu
 
     NotLoggedNavigator:
-        id: screen_manager
+        root_widget: root
+        id: not_logged_screen_manager
 
 
 <NotLoggedMenu@BoxLayout>:
@@ -14,21 +17,19 @@
     size_hint: 1, 0.1
     screen_manager: None
 
-        BoxLayout:
-            orientation: 'vertical'
-            MyButton:
-                text: "Login"
-                on_press:
-                    root.current = 'login'
-            MyButton:
-                text: "Create account"
-                on_press:
-                    root.current = 'register'
-            MyButton:
-                text: "About"
+    MyButton:
+        text: "Main page"
+        on_press:
+            root.screen_manager.current = 'main_page'
+
+    MyButton:
+        text: "Menu"
+        on_press:
+            root.screen_manager.current = 'menu'
 
 
 <NotLoggedNavigator@ScreenManager>:
+    root_widget: None
     size_hint: 1, 0.9
 
     Screen:
@@ -52,13 +53,42 @@
     Screen:
         name: 'login'
         LoginForm:
-            id: login_form
+            root_widget: root.root_widget
 
     Screen:
         name: 'register'
         RegisterForm:
-            id: register_form
 
 
+<LoggedInMenu@BoxLayout>:
+    orientation: 'horizontal'
+    size_hint: 1, 0.1
+    screen_manager: None
+
+    MyButton:
+        text: 'Menu'
+        on_press:
+            root.screen_manager.current = 'menu'
 
 
+<LoggedInNavigator@ScreenManager>:
+    root_widget: None
+    size_hint: 1, 0.9
+
+    Screen:
+        name: 'menu'
+        BoxLayout:
+            orientation: 'vertical'
+
+            MyButton:
+                text: "Playlist"
+
+            MyButton:
+                text: "Tracks"
+
+            MyButton:
+                text: "Settings"
+
+            MyButton:
+                text: "Logout"
+                on_press: root.logout()
