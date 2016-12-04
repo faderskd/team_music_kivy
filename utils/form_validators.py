@@ -7,8 +7,9 @@ def set_errors_to_form(form, errors):
         form.non_field_errors.text = non_field_errors[0]
 
     for name, value in errors.items():
-        label = getattr(form, name+'_error')
-        label.text = value[0] if isinstance(value, list) else value
+        label = getattr(form, name+'_error', '')
+        if label:
+            label.text = value[0] if isinstance(value, list) else value
 
 
 def clear_form_errors(form):

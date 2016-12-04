@@ -88,7 +88,12 @@
 
             MyButton:
                 text: "Settings"
+                on_press: root.current = 'settings'
 
             MyButton:
                 text: "Logout"
                 on_press: root.logout()
+
+    Screen:
+        name: 'settings'
+        SettingsForm:

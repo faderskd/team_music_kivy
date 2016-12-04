@@ -1,0 +1,51 @@
+<SettingsForm@FormLayout>:
+    title: 'Settings'
+    old_password: old_password
+    new_password: new_password
+    password_confirm: password_confirm
+    email: email
+    old_password_error: old_password_error
+    new_password_error: new_password_error
+    password_confirm_error: password_confirm_error
+    email_error: email_error
+
+
+    FormInput:
+        id: username
+        hint_text: 'Username'
+        disabled: True
+
+    FormInput:
+        id: old_password
+        hint_text: 'Old password'
+        password: True
+    ErrorLabel:
+        id: old_password_error
+
+    FormInput:
+        id: new_password
+        hint_text: 'New password'
+        password: True
+    ErrorLabel:
+        id: new_password_error
+
+    FormInput:
+        id: password_confirm
+        hint_text: 'Confirm password'
+        password: True
+    ErrorLabel:
+        id: password_confirm_error
+
+
+    FormInput:
+        id: email
+        hint_text: 'Email'
+    ErrorLabel:
+        id: email_error
+
+
+    FloatLayout:
+        SubmitButton:
+            text: 'Save'
+            center_x: root.center_x
+            on_press: root.change_settings()
