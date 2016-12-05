@@ -10,6 +10,7 @@ from kivy.storage.jsonstore import JsonStore
 import settings
 import validators
 import handlers
+from utils import common
 
 
 class ErrorLabel(Label):
@@ -38,7 +39,8 @@ class RegisterForm(FormLayout):
         form_handler = handlers.RegisterFormHandler(
             url=settings.API_URLS['register'],
             form=self,
-            method='POST'
+            method='POST',
+            root_widget=self.root_widget
         )
         if form_validator.form_is_valid():
             form_handler.send_request()
@@ -50,7 +52,8 @@ class LoginForm(FormLayout):
         form_handler = handlers.LoginFormHandler(
             url=settings.API_URLS['login'],
             form=self,
-            method='POST'
+            method='POST',
+            root_widget=self.root_widget
         )
         if form_validator.form_is_valid():
             form_handler.send_request()
@@ -64,7 +67,8 @@ class SettingsForm(FormLayout):
         form_handler = handlers.SettingsFormHandler(
             url=settings.API_URLS['settings'] + str(user_id) + '/',
             form=self,
-            method='PUT'
+            method='PUT',
+            root_widget=self.root_widget
         )
         if form_validator.form_is_valid():
             form_handler.send_request()
@@ -75,22 +79,17 @@ class LoggedInNavigator(ScreenManager):
         root_widget = self.root_widget
         root_widget.set_not_logged_layout()
         store = JsonStore('data.json')
-        store.delete('user')
+        common.clear_session(store)
 
 
 class RootWidget(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         store = JsonStore('data.json')
-        if store.exists('user'):
-            token = store.get('user')['token']
-            check_token_handler = handlers.CheckTokenHandler(
-                url=settings.API_URLS['check_token'] + token,
-                method='GET',
-                root_widget=self,
-                token=token
-            )
-            check_token_handler.send_request()
+        if common.session_is_valid(store):
+            self.set_logged_layout()
+        else:
+            common.clear_session(store)
 
     def set_logged_layout(self):
         self.clear_widgets()

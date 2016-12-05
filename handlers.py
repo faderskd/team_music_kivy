@@ -10,12 +10,9 @@ class LoginFormHandler(request_handlers.BaseRequestHandler):
             'password': form.password.text
         }
 
-    def on_success(self, req, result, form=None):
-        root_widget = form.root_widget
-        root_widget.set_logged_layout()
-
-        store = JsonStore('data.json')
-        store.put('user', token=result['token'], id=result['id'])
+    def on_success(self, request, result, form):
+        self._root_widget.set_logged_layout()
+        self._store.put('user', token=result['token'], id=result['id'])
 
 
 class RegisterFormHandler(request_handlers.BaseRequestHandler):
@@ -25,21 +22,6 @@ class RegisterFormHandler(request_handlers.BaseRequestHandler):
             'email': form.email.text,
             'password': form.password.text
         }
-
-
-class CheckTokenHandler(request_handlers.BaseRequestHandler):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._token = kwargs['token']
-        self._root_widget = kwargs['root_widget']
-
-    def get_request_data(self, form=None):
-        return {
-            'token': self._token
-        }
-
-    def on_success(self, request, result, form):
-        self._root_widget.set_logged_layout()
 
 
 class SettingsFormHandler(request_handlers.BaseRequestHandler):

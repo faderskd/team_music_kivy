@@ -7,7 +7,6 @@ ERRORS = {
     'email': 'Invalid email format',
     'password_length': 'Minimum password length is 6 signs',
     'passwords_mismatch': 'Passwords are not the same',
-    'passwords_not_filled': 'Fill all passwords'
 }
 
 
@@ -59,11 +58,11 @@ def settings_validator(old_password, new_password, password_confirm, email):
     errors = {}
     if any([old_password, new_password, password_confirm]) and not all([old_password, new_password, password_confirm]):
         if not old_password:
-            errors['old_password'] = ERRORS['passwords_not_filled']
+            errors['old_password'] = ERRORS['required']
         if not new_password:
-            errors['new_password'] = ERRORS['passwords_not_filled']
+            errors['new_password'] = ERRORS['required']
         if not password_confirm:
-            errors['password_confirm'] = ERRORS['passwords_not_filled']
+            errors['password_confirm'] = ERRORS['required']
 
     if old_password and new_password != password_confirm:
         errors['new_password'] = ERRORS['passwords_mismatch']
